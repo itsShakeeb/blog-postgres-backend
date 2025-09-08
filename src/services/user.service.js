@@ -1,4 +1,4 @@
-const { findUserByEmail, insertUser, insertSessions, updateSessions, getActiveSession } = require('../repositories/user.repo');
+const { findUserByEmail, insertUser, insertSessions, updateSessions, getActiveSession, revokeSession } = require('../repositories/user.repo');
 const { getHashedPassword, comparePassword } = require('../utils/password');
 const { createJWT, getNewHashedRefreshToken, getNewRefreshToken } = require('../utils/token');
 
@@ -52,7 +52,13 @@ const loginUser = async ({ email, password }) => {
     };
 };
 
+const logoutUser = async ({ session_id }) => {
+
+    return (await revokeSession(session_id)).rows[0]
+}
+
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    logoutUser
 }

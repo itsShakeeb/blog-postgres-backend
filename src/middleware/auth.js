@@ -1,3 +1,4 @@
+const { getActiveSession } = require("../repositories/user.repo");
 const { verifyJWT } = require("../utils/token")
 
 const auth = async (req, res, next) => {
@@ -13,7 +14,15 @@ const auth = async (req, res, next) => {
         }
 
         const user = await verifyJWT(token)
-
+        const session_id = user.sid;
+        if (!session_id) {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
+        const activeSession = await getActiveSession(user.sub);
+        
+        if (!activeSession.rows.length) {
+            return res.status(401).json({ error: 'Invalid token: session not found' });
+        }
         req.user = user;
 
         next();

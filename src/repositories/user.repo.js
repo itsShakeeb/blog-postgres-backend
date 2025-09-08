@@ -35,4 +35,16 @@ const getActiveSession = (user_id) => {
         [user_id, 'active']
     );
 }
-module.exports = { findUserByEmail, insertUser, insertSessions, updateSessions, getActiveSession, findUserById };
+
+const revokeSession = (session_id) => {
+    return query(
+        `
+            UPDATE sessions
+            SET status = $1
+            WHERE id = $2
+            RETURNING user_id
+        `,
+        ['expired', session_id]
+    )
+}
+module.exports = { findUserByEmail, insertUser, insertSessions, updateSessions, getActiveSession, findUserById, revokeSession };

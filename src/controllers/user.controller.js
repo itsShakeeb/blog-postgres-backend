@@ -28,7 +28,21 @@ const loginUserController = async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 }
+
+const logoutUserController = async (req, res) => {
+    const { user } = req
+    try {
+        await userService.logoutUser({ session_id: user.sid })
+        res.clearCookie('refresh_token');
+        res.status(200).json({ msg: 'Log out successfully' })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+
+
+}
 module.exports = {
     createUserController,
-    loginUserController
+    loginUserController,
+    logoutUserController
 }

@@ -5,13 +5,13 @@ const crypto = require('crypto')
 dotenv.config()
 
 const createJWT = async ({ user_id, role, session_id }) => {
-    return jwt.sign({ sub: user_id, role, sid: session_id }, process.env.JWT_SECRET, { algorithm: 'HS256', issuer: 'blog-be', expiresIn: '300s', })
+    return jwt.sign({ sub: user_id, role, sid: session_id }, process.env.JWT_SECRET, { algorithm: 'HS256', issuer: 'blog-be', expiresIn: '1hr', })
 }
 
 const verifyJWT = async (token) => {
     return jwt.verify(token, process.env.JWT_SECRET, {
         algorithms: ['HS256'],
-        issuer: 'blog-be', // optional: match what you set during sign
+        issuer: 'blog-be',
 
     })
 }
