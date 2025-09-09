@@ -41,16 +41,15 @@ const updateComment = async (content, comment_id) => {
         [content, comment_id]
     )
 }
-const getComments = async (post_id) => {
+
+const getCommentById = async (comment_id) => {
     return query(
         `
-            SELECT 
-                posts.id AS post_id,
-                posts.content AS content
+            SELECT * FROM comments
             WHERE id = $1
             AND is_deleted = false
         `,
-        [post_id]
+        [comment_id]
     )
 }
 
@@ -58,6 +57,6 @@ module.exports = {
     insertComment,
     removeComment,
     updateComment,
-    getComments,
-    getAllComments
+    getAllComments,
+    getCommentById
 }
