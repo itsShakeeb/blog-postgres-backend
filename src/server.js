@@ -24,6 +24,8 @@ app.get('/health', async (_, res) => {
 
 app.use('/v1/auth', require('./routes/auth'))
 app.use('/v1/post', require('./routes/post'))
+app.use('/v1/comment', require('./routes/comment'))
+
 
 
 app.listen(PORT, () => {
